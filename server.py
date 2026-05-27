@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template
 from classifier import predict
 
-app = Flask(__name__, template_folder="templates")
+app = Flask(__name__)
 
 
 @app.route("/")
@@ -22,4 +22,4 @@ def classify():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run()
