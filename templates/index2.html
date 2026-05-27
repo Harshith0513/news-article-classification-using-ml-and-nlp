@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Article Classification</title>
+    <style>
+        /* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    background-image: url('news.jpg'); /* Background image resembling a newspaper */
+    background-size: cover;
+    background-attachment: fixed;
+    color: #333;
+}
+
+/* Center container */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+/* Heading */
+.container h1 {
+    font-size: 2rem;
+    color: white;
+}
+
+/* Form Styles */
+form {
+    margin-top: 20px;
+}
+
+textarea {
+    width: 90%;
+    height: 150px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: none;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Result Box */
+.result-box {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: left;
+}
+
+.result-box h3 {
+    margin: 0 0 10px;
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.result-box p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>News Article Classification</h1>
+        <form id="newsForm">
+            <textarea id="newsArticle" name="news_article" placeholder="Paste your news article here..." required></textarea>
+            <button type="submit">Classify</button>
+        </form>
+        <div id="result" class="result-box">
+            <h3>Classification Result:</h3>
+            <p id="category">The category will appear here after classification.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('newsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newsArticle = document.getElementById('newsArticle').value;
+            const categoryElement = document.getElementById('category');
+            
+            if (!newsArticle.trim()) {
+                categoryElement.textContent = 'Please enter an article to classify.';
+                return;
+            }
+            
+            categoryElement.textContent = 'Classifying...';
+            
+            const params = new URLSearchParams();
+            params.append('news_article', newsArticle);
+
+            fetch('/classify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params.toString()
+            })
+            .then(response => response.text())
+            .then(data => {
+                categoryElement.textContent = data.trim();
+            })
+            .catch(error => {
+                categoryElement.textContent = 'Error: ' + error.message;
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
