@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-image: url('news.jpg'); /* Background image resembling a newspaper */
+    background-image: url('/static/images/news.jpg'); /* Background image resembling a newspaper */
     background-size: cover;
     background-attachment: fixed;
     color: #333;
